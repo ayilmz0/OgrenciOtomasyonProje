@@ -1,0 +1,54 @@
+﻿@model IEnumerable<OgrenciOtomasyonWeb.Models.Home>
+
+@{
+    ViewData["Title"] = "Öğrenci Otomasyonu";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card text-white bg-primary mb-4">
+                <div class="card-header" style="font-size:20px">Öğrenci Sayısı</div>
+                <div class="card-body">
+                    <h4 class="card-title">@ViewBag.OgrenciSayisi</h4>
+                    <p class="card-text">Sistemde kayıtlı toplam öğrenci sayısı.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-4">
+                <div class="card-header" style="font-size:20px">Ders Sayısı</div>
+                <div class="card-body">
+                    <h4 class="card-title">@ViewBag.DersSayisi</h4>
+                    <p class="card-text">Sistemde tanımlı toplam ders sayısı.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card text-white bg-warning">
+                <div class="card-header" style="font-size:20px">Öğretim Üyesi Sayısı</div>
+                <div class="card-body">
+                    <h4 class="card-title">@ViewBag.OgretimUyesiSayisi</h4>
+                    <p class="card-text">Sistemde kayıtlı toplam öğretim üyesi sayısı.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card text-white bg-danger">
+                <div class="card-header" style="font-size:20px">Aktif Öğrenci Sayısı</div>
+                <div class="card-body">
+                    <h4 class="card-title">@ViewBag.AktifOgrenciSayisi</h4>
+                    <p class="card-text">Şu anda aktif durumda olan öğrencilerin sayısı.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

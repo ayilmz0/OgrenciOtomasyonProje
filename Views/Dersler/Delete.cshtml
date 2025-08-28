@@ -1,0 +1,19 @@
+﻿@model OgrenciOtomasyonWeb.Models.Dersler
+@{
+    ViewData["Title"] = "Ders Sil";
+}
+
+<h2>Ders Sil</h2>
+
+<h4>Silmek istediğinize emin misiniz?</h4>
+
+<div><strong>Ders Adı:</strong> @Model.DersAdi</div>
+<div><strong>Ders Kodu:</strong> @Model.DersKodu</div>
+<div><strong>Kredi:</strong> @Model.Kredi</div>
+<div><strong>Durum:</strong> @(Model.Durum ? "Aktif" : "Pasif")</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="DersId" />
+    <button type="submit" class="btn btn-danger mt-3">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary mt-3">İptal</a>
+</form>

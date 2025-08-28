@@ -1,0 +1,60 @@
+﻿@model IEnumerable<OgrenciOtomasyonWeb.Models.Dersler>
+@{
+    ViewData["Title"] = "Dersler";
+}
+
+@if (ViewBag.Hata != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Hata
+    </div>
+}
+
+<h2>Dersler Listesi</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3 float-end">Yeni Ders Ekle</a>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="DersAdi" class="form-control" placeholder="Ders Adı Giriniz" value="@ViewBag.DersAdi" />
+        <button type="submit" class="btn btn-primary">Filtrele</button>
+    </div>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Ders Adı</th>
+                <th>Ders Kodu</th>
+                <th>Kredi</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ders in Model)
+            {
+                <tr>
+                    <td>@ders.DersAdi</td>
+                    <td>@ders.DersKodu</td>
+                    <td>@ders.Kredi</td>
+                    <td>@(ders.Durum ? "Aktif" : "Pasif")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@ders.DersId" class="btn btn-sm btn-warning">Düzenle</a>
+                        <a asp-action="Delete" asp-route-id="@ders.DersId" class="btn btn-sm btn-danger">Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<style>
+    h2 {
+        float: left;
+    }
+</style>
+
+

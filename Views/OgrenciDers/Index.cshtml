@@ -1,0 +1,84 @@
+﻿@model IEnumerable<OgrenciOtomasyonWeb.Models.OgrenciDers>
+@{
+    ViewData["Title"] = "Öğrenci Ders";
+}
+
+@if (ViewBag.Hata != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Hata
+    </div>
+}
+
+<h2>Öğrenci Ders Listesi</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3 float-end">Yeni Öğrenci Ders Ekle</a>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="ogrenciNo" class="form-control" placeholder="Öğrenci No giriniz" value="@ViewBag.OgrenciNo" />
+        <button type="submit" class="btn btn-primary">Filtrele</button>
+    </div>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Öğrenci</th>
+                <th>Ders</th>
+                <th>Öğretim Üyesi</th>
+                <th>Yıl</th>
+                <th>Dönem</th>
+                <th>Vize 1</th>
+                <th>Vize 2</th>
+                <th>Final</th>
+                <th>Quiz</th>
+                <th>Harf Notu</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var ogrenciDers in Model)
+            {
+                <tr>
+                    <td>@ogrenciDers.Ogrenci.Ad @ogrenciDers.Ogrenci.Soyad</td>
+                    <td>@ogrenciDers.Dersler.DersAdi</td>
+                    <td>@ogrenciDers.OgretimUyesi.Ad @ogrenciDers.OgretimUyesi.Soyad</td>
+                    <td>@ogrenciDers.Yil</td>
+                    <td>
+                        @{
+                            var DonemEnum = (Donem)ogrenciDers.Donem;
+                            var DonemDesc = DonemEnum.ToString();
+                        }
+                        @DonemDesc
+                    </td>
+                    <td>@ogrenciDers.Vize1</td>
+                    <td>@ogrenciDers.Vize2</td>
+                    <td>@ogrenciDers.Final</td>
+                    <td>@ogrenciDers.Quiz</td>
+                    <td>
+                        @{
+                            var HarfNotuEnum = (HarfNotu)ogrenciDers.HarfNotu;
+                            var HarfNotuDesc = HarfNotuEnum.ToString();
+                        }
+                        @HarfNotuDesc
+                    </td>
+                    <td>
+
+
+                        <a asp-action="Edit" asp-route-id="@ogrenciDers.OgrenciDersId" class="btn btn-sm btn-warning">Düzenle</a>
+                        <a asp-action="Delete" asp-route-id="@ogrenciDers.OgrenciDersId" class="btn btn-sm btn-danger">Sil</a>
+                    </td>
+                </tr>
+                            }
+        </tbody>
+    </table>
+                            }
+    <style>
+        h2 {
+            float: left;
+        }
+    </style>

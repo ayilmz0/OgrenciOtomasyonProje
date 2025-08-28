@@ -1,0 +1,26 @@
+﻿@model OgrenciOtomasyonWeb.Models.Ogrenci
+@{
+    ViewData["Title"] = "Öğrenci Sil";
+}
+
+<h2>Öğrenci Sil</h2>
+
+<h4>Silmek istediğinize emin misiniz?</h4>
+
+<div><strong>Öğrenci Adı:</strong> @Model.Ad</div>
+<div><strong>Öğrenci Soyadı:</strong> @Model.Soyad</div>
+<div><strong>Tc No:</strong> @Model.TcNo</div>
+<div><strong>Email:</strong> @Model.Email</div>
+<div><strong>Telefon No:</strong> @Model.TelefonNo</div>
+<div><strong>Öğrenci No:</strong> @Model.OgrenciNo</div>
+<div><strong>Bölüm:</strong> @Model.Bolumu</div>
+<div><strong>Sınıf:</strong> @Model.Sinif</div>
+<div><strong>Doğum Tarihi:</strong> @Model.DogumTarihi.ToString("dd.MM.yyyy")</div>
+<div><strong>Kayıt Tarihi:</strong> @Model.KayitTarihi.ToString("dd.MM.yyyy")</div>
+<div><strong>Durum:</strong> @Model.Durum.ToString()</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="OgrenciId" />
+    <button type="submit" class="btn btn-danger mt-3">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary mt-3">İptal</a>
+</form>

@@ -1,0 +1,127 @@
+﻿@model OgrenciTranskriptViewModel
+@{
+    ViewData["Title"] = "Transkript";
+
+    var dersNotlari = Model.DersNotlari.Cast<OgrenciDers>().ToList();
+
+    var grouped = dersNotlari
+        .GroupBy(x => new { x.Yil, x.Donem })
+        .OrderBy(g => g.Key.Yil)
+        .ThenBy(g => g.Key.Donem);
+}
+
+<div class="container">
+    <div class="pdf-button-container mb-3" style="display: flex; justify-content: flex-end;">
+        <a asp-action="TranskriptPdf" asp-route-id="@Model.Ogrenci.OgrenciId" class="btn btn-secondary btn-sm">PDF</a>
+    </div>
+    <div class="transcript-header text-center mb-4">
+        <h3>T.C.</h3>
+        <h3>YILMAZ ÜNİVERSİTESİ</h3>
+        <h5>ÖĞRENCİ BAŞARI DURUM BELGESİ</h5>
+        <p class="text-muted">Tarih: @DateTime.Now.ToString("dd/MM/yyyy")</p>
+    </div>
+
+    <div class="student-info mb-4">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Öğrenci No:</strong> @Model.Ogrenci.OgrenciNo</p>
+                <p><strong>Adı:</strong> @Model.Ogrenci.Ad</p>
+                <p><strong>Soyadı:</strong> @Model.Ogrenci.Soyad</p>
+                <p><strong>TC Kimlik No:</strong> @Model.Ogrenci.TcNo</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Kayıt Tarihi:</strong> @Model.Ogrenci.KayitTarihi.ToString("dd/MM/yyyy")</p>
+                <p><strong>Bölüm:</strong> @Model.Ogrenci.Bolumu</p>
+                <p><strong>Sınıf:</strong> @Model.Ogrenci.Sinif</p>
+                <p><strong>Durum:</strong> @Model.Ogrenci.Durum</p>
+            </div>
+        </div>
+    </div>
+
+
+    @foreach (var group in grouped)
+    {
+        <h5>@group.Key.Yil - @((Donem)group.Key.Donem)</h5>
+
+        <table class="table table-bordered table-hover mb-4">
+
+            <colgroup>
+                <col style="width: 12%;">
+                <col style="width: 20%;">
+                <col style="width: 8%;">
+                <col style="width: 10%;">
+                <col style="width: 10%;">
+                <col style="width: 10%;">
+                <col style="width: 10%;">
+                <col style="width: 20%;">
+            </colgroup>
+
+            <thead class="thead-dark">
+                <tr>
+                    <th>Ders Kodu</th>
+                    <th>Ders Adı</th>
+                    <th>Kredi</th>
+                    <th>Vize1</th>
+                    <th>Vize2</th>
+                    <th>Final</th>
+                    <th>Quiz</th>
+                    <th>Harf Notu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in group)
+                {
+                    <tr>
+                        <td>@item.Dersler.DersKodu</td>
+                        <td>@item.Dersler.DersAdi</td>
+                        <td>@item.Dersler.Kredi</td>
+                        <td>@item.Vize1</td>
+                        <td>@item.Vize2</td>
+                        <td>@item.Final</td>
+                        <td>@item.Quiz</td>
+                        <td>
+                            @{
+                                var HarfNotuEnum = (HarfNotu)item.HarfNotu;
+                                var HarfNotuDesc = HarfNotuEnum.ToString();
+                            }
+                            @HarfNotuDesc
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <div class="container">
+        <div class="gano text-right mb-4">
+            <strong>Genel Ağırlıklı Not Ortalaması (GANO):</strong> @Model.Gano.ToString("0.00")
+        </div>
+    </div>
+
+    <style>
+        .container {
+            font-size: 0.70rem;
+            max-width: 850px;
+            padding: 10px;
+        }
+
+        .transcript-header {
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .student-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .summary {
+            border-radius: 5px;
+        }
+
+        th {
+            white-space: nowrap;
+        }
+
+    </style>

@@ -1,0 +1,99 @@
+﻿@model OgrenciOtomasyonWeb.Models.OgrenciDers
+@{
+    ViewData["Title"] = "Öğrenci Ders Düzenle";
+}
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="OgrenciDersId" />
+    <div class="form-group">
+        <label asp-for="OgrenciId">Öğrenci</label>
+        <select asp-for="OgrenciId" class="form-control" asp-items="ViewBag.Ogrenci"></select>
+        <span asp-validation-for="OgrenciId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DersId">Ders</label>
+        <select asp-for="DersId" class="form-control" asp-items="ViewBag.Dersler"></select>
+        <span asp-validation-for="DersId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="OgretimUyesiId">Öğretim Üyesi</label>
+        <select asp-for="OgretimUyesiId" class="form-control" asp-items="ViewBag.OgretimUyesi"></select>
+        <span asp-validation-for="OgretimUyesiId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Yil">Yıl</label>
+        <input asp-for="Yil" class="form-control" type="number" />
+        <span asp-validation-for="Yil" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Donem">Dönem</label>
+        <select asp-for="Donem" class="form-control" asp-items="Html.GetEnumSelectList<Donem>()"></select>
+        <span asp-validation-for="Donem" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Vize1">Vize 1</label>
+        <input asp-for="Vize1" class="form-control" type="number" step="0.01" min="0" max="100" />
+        <span asp-validation-for="Vize1" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Vize2">Vize 2</label>
+        <input asp-for="Vize2" class="form-control" type="number" step="0.01" min="0" max="100" />
+        <span asp-validation-for="Vize2" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Final">Final</label>
+        <input asp-for="Final" class="form-control" type="number" step="0.01" min="0" max="100" />
+        <span asp-validation-for="Final" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quiz">Quiz</label>
+        <input asp-for="Quiz" class="form-control" type="number" step="0.01" min="0" max="100" />
+        <span asp-validation-for="Quiz" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="HarfNotu">Dönem</label>
+        <select asp-for="HarfNotu" class="form-control" asp-items="Html.GetEnumSelectList<HarfNotu>()"></select>
+        <span asp-validation-for="HarfNotu" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary mt-3">Güncelle</button>
+    <a asp-action="Index" class="btn btn-secondary mt-3">Geri Dön</a>
+</form>
+
+<script>
+    function harfNotuHesapla() {
+        const vize1 = parseFloat(document.getElementById('Vize1').value) || 0;
+        const vize2 = parseFloat(document.getElementById('Vize2').value) || 0;
+        const final = parseFloat(document.getElementById('Final').value) || 0;
+        const quiz = parseFloat(document.getElementById('Quiz').value) || 0;
+
+        // Örnek ağırlıklandırma: Vize1 %20, Vize2 %20, Final %40, Quiz %20
+        const ortalama = vize1 * 0.2 + vize2 * 0.2 + final * 0.4 + quiz * 0.2;
+
+        // HarfNotu enum değerlerine göre karşılık (enum değerlerini integer olarak ayarla)
+        // Örneğin: AA=1, BA=2, BB=3, CB=4, CC=5, DC=6, DD=7, FF=8
+        let harfNotuDegeri = 8; // default FF
+
+        if (ortalama >= 90) harfNotuDegeri = 1;  // AA
+        else if (ortalama >= 85) harfNotuDegeri = 2; // BA
+        else if (ortalama >= 80) harfNotuDegeri = 3; // BB
+        else if (ortalama >= 75) harfNotuDegeri = 4; // CB
+        else if (ortalama >= 70) harfNotuDegeri = 5; // CC
+        else if (ortalama >= 65) harfNotuDegeri = 6; // DC
+        else if (ortalama >= 60) harfNotuDegeri = 7; // DD
+
+        // Dropdown'u güncelle (disabled olduğu için görünürde değişmez ama value değişir)
+        document.getElementById('HarfNotu').value = harfNotuDegeri;
+        // Gizli input'u da güncelle, böylece postta gönderilir
+        document.getElementById('HarfNotuHidden').value = harfNotuDegeri;
+    }
+
+    // Inputlarda değişiklik olduğunda hesapla
+    ['Vize1', 'Vize2', 'Final', 'Quiz'].forEach(id => {
+        document.getElementById(id).addEventListener('input', harfNotuHesapla);
+    });
+
+    // Sayfa yüklendiğinde ilk hesaplama
+    window.addEventListener('load', harfNotuHesapla);
+</script>

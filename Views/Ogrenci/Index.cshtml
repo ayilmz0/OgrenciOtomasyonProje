@@ -1,0 +1,95 @@
+﻿@model IEnumerable<OgrenciOtomasyonWeb.Models.Ogrenci>
+
+@{
+    ViewData["Title"] = "Öğrenci";
+}
+
+@if (ViewBag.Hata != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Hata
+    </div>
+}
+
+<h2>Öğrenci Listesi</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3 float-end">Yeni Öğrenci Ekle</a>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="OgrenciNo" class="form-control" placeholder="Öğrenci No Giriniz" value="@ViewBag.OgrenciNo" />
+        <button type="submit" class="btn btn-primary">Filtrele</button>
+    </div>
+</form>
+
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Tc No</th>
+                <th>Email</th>
+                <th>Telefon No</th>
+                <th>Öğrenci No</th>
+                <th>Bölüm</th>
+                <th>Sınıf</th>
+                <th>Doğum Tarihi</th>
+                <th>Kayıt Tarihi</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
+                <th>Transkript</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ogrenci in Model)
+            {
+
+
+                <tr>
+                    <td>@ogrenci.Ad</td>
+                    <td>@ogrenci.Soyad</td>
+                    <td>@ogrenci.TcNoSansur</td>
+                    <td>@ogrenci.Email</td>
+                    <td>@ogrenci.TelefonNo</td>
+                    <td>@ogrenci.OgrenciNo</td>
+                    <td>@ogrenci.Bolumu</td>
+                    <td>@ogrenci.Sinif</td>
+                    <td>@ogrenci.DogumTarihi.ToString("dd.MM.yyyy")</td>
+                    <td>@ogrenci.KayitTarihi.ToString("dd.MM.yyyy")</td>
+                    <td>
+                        @{
+                            var durumEnum = (Durum)ogrenci.Durum;
+                            var durumDesc = durumEnum.ToString();
+                        }
+                        @durumDesc
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 3px;">
+                            <a asp-action="Edit" asp-route-id="@ogrenci.OgrenciId" class="btn btn-sm btn-warning">Düzenle</a>
+                            <a asp-action="Delete" asp-route-id="@ogrenci.OgrenciId" class="btn btn-sm btn-danger">Sil</a>
+                        </div>
+                    </td>
+                    <td>
+                        <a asp-action="Transkript" asp-route-id="@ogrenci.OgrenciId" class="btn btn-sm btn-info">Transkript</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<style>
+
+    th {
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    h2 {
+        float: left;
+    }
+</style>
+
