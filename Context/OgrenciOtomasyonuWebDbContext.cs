@@ -5,11 +5,9 @@ namespace OgrenciOtomasyonWeb.Context
 {
     public class OgrenciOtomasyonuWebDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public OgrenciOtomasyonuWebDbContext(DbContextOptions<OgrenciOtomasyonuWebDbContext> options) : base(options)
         {
-            
         }
-
         public DbSet<Dersler> Dersler { get; set; }
         public DbSet<Ogrenci> Ogrenci { get; set; }
         public DbSet<OgrenciDers> OgrenciDers { get; set; }
@@ -20,7 +18,7 @@ namespace OgrenciOtomasyonWeb.Context
             modelBuilder.Entity<Dersler>().HasKey(d => d.DersId);
 
             modelBuilder.Entity<OgrenciDers>()
-            .ToTable(tb => tb.HasTrigger("HarfNotuHesaplaTrigger"));
+                .ToTable(tb => tb.HasTrigger("HarfNotuHesaplaTrigger"));
         }
     }
 }

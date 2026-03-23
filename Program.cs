@@ -1,11 +1,15 @@
 using OgrenciOtomasyonWeb.Context;
 using Rotativa.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<OgrenciOtomasyonuWebDbContext>();
+
+// DbContext'e SQL Server kullanacaðýný ve baðlantý dizesini veriyoruz
+builder.Services.AddDbContext<OgrenciOtomasyonuWebDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
