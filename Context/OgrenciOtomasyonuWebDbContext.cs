@@ -7,7 +7,7 @@ namespace OgrenciOtomasyonWeb.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=ABDULLAH\\SQLEXPRESS; database=OgrenciOtomasyonuDb; Integrated Security=true; TrustServerCertificate=true;");
+            
         }
 
         public DbSet<Dersler> Dersler { get; set; }
